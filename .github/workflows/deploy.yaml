@@ -28,4 +28,5 @@ jobs:
           environment_name: Frontend-env
           existing_bucket_name: elasticbeanstalk-eu-north-1-867344459195
           region: eu-north-1
+          version_label: ${{ github.sha }}
           deployment_package: deploy.zip
