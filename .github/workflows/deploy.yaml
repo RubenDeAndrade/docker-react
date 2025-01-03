@@ -17,7 +17,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::867344459195:role/aws-elasticbeanstalk-ec2-role
-          aws-region: YOUR_AWS_REGION
+          aws-region: eu-north-1
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
