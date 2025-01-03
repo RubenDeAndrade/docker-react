@@ -12,3 +12,16 @@ jobs:
       - run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - run: docker build -t rdeandrade/react-test -f Dockerfile.dev .
       - run: docker run -e CI=true rdeandrade/react-test npm test
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          application_name: frontend
+          environment_name: Frontend-env
+          existing_bucket_name: elasticbeanstalk-eu-north-1-867344459195
+          region: eu-north-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
