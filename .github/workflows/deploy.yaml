@@ -13,14 +13,14 @@ jobs:
       - run: docker build -t rdeandrade/react-test -f Dockerfile.dev .
       - run: docker run -e CI=true rdeandrade/react-test npm test
 
-      - name: Generate deployment package
-        run: zip -r deploy.zip . -x '*.git*'
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::867344459195:role/aws-elasticbeanstalk-ec2-role
-          aws-region: eu-north-1
+          aws-region: YOUR_AWS_REGION
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v18
@@ -29,5 +29,4 @@ jobs:
           environment_name: Frontend-env
           existing_bucket_name: elasticbeanstalk-eu-north-1-867344459195
           region: eu-north-1
-          version_label: ${{ github.sha }}
           deployment_package: deploy.zip
